@@ -22,20 +22,6 @@ function pp = cspline2(t,u,fs,l)
     w12 = (3-sqrt(3))*u + tmp;
     w1 = [w11.';w12.'];
 
-    % l-causal filter (only for l = 1)
-    %{
-    l = 1;
-    
-    tmp = zeroshift(u,-1,1);
-    tmp = 6*fs^3*[(-4+3*sqrt(3))*tmp.'; (1-sqrt(3))*tmp.'];
-    
-    X = (fs^3)*[6*sqrt(3)-6, 3-3*sqrt(3); 3-3*sqrt(3), sqrt(3)];
-    AX = (alpha^l*fs^3)*[6*sqrt(3), 3-3*sqrt(3); -3-3*sqrt(3), sqrt(3)];
-    
-    tmp = tmp - X*w1;
-    w2 = tmp + zeroshift(AX*w1,-l,2);
-    %}
-
     % l-causal filter
     b2 = alpha.^(l-1:-1:1);
     tmp = filter(b2,1,u);

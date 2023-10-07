@@ -8,13 +8,13 @@
 % output:
 %   pp --- piecewise cubic polynomial approximation of input signal.
 % references:
-%   [1] Petrinovic, Davor. (2008). Causal Cubic Splines: Formulations, 
-%       Interpolation Properties and Implementations. Signal Processing, 
-%       IEEE Transactions on. 56. 5442 - 5453. 10.1109/TSP.2008.929133. 
-%   [2] Petrinovic, D.. (2009). Continuous time domain properties of causal 
-%       cubic splines. Signal Processing. 89. 1941-1958. 
-%       10.1016/j.sigpro.2009.03.031. 
-function pp = cspline(t, u, fs, M)
+% [1] Petrinovic, Davor. (2008). Causal Cubic Splines: Formulations, 
+%     Interpolation Properties and Implementations. Signal Processing, 
+%     IEEE Transactions on. 56. 5442 - 5453. 10.1109/TSP.2008.929133. 
+% [2] Petrinovic, D.. (2009). Continuous time domain properties of causal 
+%     cubic splines. Signal Processing. 89. 1941-1958. 
+%     10.1016/j.sigpro.2009.03.031. 
+function pp = cspline(t,u,fs,M)
     % filters parameters
     alpha = -2 + sqrt(3);
     s = 1;%1/(1-alpha^(M+1));

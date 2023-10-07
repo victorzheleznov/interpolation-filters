@@ -1,4 +1,4 @@
-% noncausal B-spline interpolation
+% noncausal B-spline interpolation [1,2,3,4]
 % input:
 %   t --- time vector;
 %   u --- input signal;
