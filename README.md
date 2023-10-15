@@ -9,5 +9,4 @@ This repository includes MATLAB functions to perform interpolation of a discrete
 
 All of the functions operate on the whole data vector. Even though most of the methods are causal, provided functions are designed for evaluation of interpolation filters rather then for real-time implementation.  
 
-Full references are provided within the scripts.
-
+Overview of these interpolation kernels is provided in Chapter 2 of [my MSc thesis](https://www.researchgate.net/publication/374194858_Interpolation_Filters_for_Antiderivative_Antialiasing).
