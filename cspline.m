@@ -1,8 +1,8 @@
 % causal cubic spline based on truncation of anticausal IIR filter [1,2]
 % (cascade pre-filter and De Boor's output filter)
 % input:
-%   t --- time vector;
-%   u --- signal samples;
+%   t --- time vector (column);
+%   u --- input signal (column);
 %   fs --- sampling rate [Hz];
 %   M --- pre-filter truncation.
 % output:
@@ -27,8 +27,7 @@ function pp = cspline(t,u,fs,M)
     %% cascade casual B-spline filter + De Boor's output filter
     % FIR filter
     u_fir = filter(b_fir,1,u);
-    u_zM = circshift(u,M);
-    u_zM(1:M) = 0;
+    u_zM = zeroshift(u,M,1);
 
     % IIR filter
     w_tmp = -alpha*s*(u_fir+u_zM);
@@ -45,8 +44,7 @@ function pp = cspline(t,u,fs,M)
     coefs(:,1) = filter(b31,1,w) + filter(b32,1,u_zM);
     coefs(:,2) = filter(b21,1,w) + filter(b22,1,u_zM);
     coefs(:,3) = filter(b11,1,w);
-    coefs(:,4) = circshift(u_zM, 2);
-    coefs(1:2,4) = 0;
+    coefs(:,4) = zeroshift(u_zM,2,1);
 
     % compensate delay and remove first segment
     % (output FIR filters require one past sample => n = 1 is undefied)
@@ -58,4 +56,29 @@ function pp = cspline(t,u,fs,M)
 
     % create piecewise polynomial
     pp = mkpp(breaks, coefs);
+end
+
+%% FUNCTIONS
+% shift 2d array values and fill boundary with zeros
+% input:
+%   in --- input 2d array;
+%   l --- integer shift (positive shifts toward the end and negative shifts toward the beginning);
+%   d --- dimension (d = 1 to shift rows, d = 2 to shift columns).
+% output:
+%   out --- shifted array.
+function out = zeroshift(in,l,d)
+    out = circshift(in,l,d);
+    if l > 0
+        if d == 1
+            out(1:l,:) = 0;
+        elseif d == 2
+            out(:,1:l) = 0;
+        end
+    elseif l < 0
+        if d == 1
+            out(end+l+1:end,:) = 0;
+        elseif d == 2
+            out(:,end+l+1:end) = 0;
+        end
+    end
 end
